@@ -44,17 +44,34 @@ public class Player {
         if (this.direction < 0) {
             this.direction = this.WEST;
         }
+
+        this.movementLog += "L";
     }
 
     // turn right
     public void turnRight() {
         this.direction = (this.direction + 1) % 4;
+        this.movementLog += "R";
     }
   
     // move forward
     public void moveForward() {
         this.rowPos += movement[this.direction][0];
         this.colPos += movement[this.direction][1];
+        this.movementLog += "F";
+    }
+
+    // get movement log
+    public String getCanonical() {
+        return this.movementLog;
+    }
+
+    // guess next position by applying a forward move to current position
+    public int[] predictMove() {
+        int[] predict = {this.rowPos + movement[this.direction][0], 
+        this.colPos + movement[this.direction][1]};
+
+        return predict;
     }
 
 }

@@ -17,9 +17,6 @@ public class Main {
     private static Maze maze = new Maze();
     private static Player player;
 
-    // Variables
-    private static int entryRow, exitRow;
-
     public static void main(String[] args) {
         logger.info("** Starting Maze Runner");
 
@@ -36,9 +33,14 @@ public class Main {
 
                 logger.info("**** Reading the maze from file " + inputFile + "\n");
                 BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-                String line;
+                String line = "";
                 while ((line = reader.readLine()) != null) {
                     // Append row of maze to maze arraylist
+                    if (line.length() == 0) {
+                        for (int i = 0; i < maze.getWidth(); i++) {
+                            line += " ";
+                        }
+                    }
                     maze.addRow(line);
                     
                     for (int idx = 0; idx < line.length(); idx++) {
@@ -79,6 +81,29 @@ public class Main {
         // print maze map with player position and direction
         maze.printMaze(player.getRow(), player.getCol());
         player.printPos();
+
+        // Simple algorithm, move forward until wall, turn right, repeat until exit
+        int steps = 0;
+        while (player.getCol() != maze.getWidth() - 1 && steps < 100) {
+            if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
+                player.moveForward(); // F
+                steps += 1;
+            }
+            else {
+                player.turnRight();
+            }
+            maze.printMaze(player.getRow(), player.getCol());
+            player.printPos();
+        }
+
+        if (player.getCol() == maze.getWidth() - 1) {
+            System.out.println("Maze is completed");
+        }
+
+        System.out.println("Path: " + player.getCanonical());
+
+
+        /* hard code for "small.maz.txt"
 
         // testing turning left
         player.turnLeft();
@@ -160,6 +185,7 @@ public class Main {
         player.moveForward();
         maze.printMaze(player.getRow(), player.getCol());
         player.printPos();
+        */
 
     }
 }

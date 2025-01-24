@@ -19,7 +19,8 @@ public class Maze {
     public void printMaze() {
         for (int i = 0; i < this.maze.size(); i++) {
             for (int j = 0; j < this.maze.get(0).length(); j++) {
-                System.out.print(this.maze.get(i).charAt(j) + " ");
+                System.out.print(this.maze.get(i).charAt(j));
+                System.out.print(" ");
             }
             System.out.println("");
         }
@@ -71,10 +72,22 @@ public class Maze {
         return this.exitRow;
     }
 
+    // get maze width
+    public int getWidth() {
+        return this.maze.get(0).length();
+    }
+
     // check if position is wall
     public boolean isWall(int row, int column) {
-        //
-        return false;
+        if (row < 0 || column < 0 || row > this.maze.size() || column > this.maze.get(0).length()) {
+            return true;
+        }
+        if (this.maze.get(row).charAt(column) == '#') {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }
