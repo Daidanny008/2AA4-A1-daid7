@@ -80,7 +80,86 @@ public class Main {
         maze.printMaze(player.getRow(), player.getCol());
         player.printPos();
 
-        //player.moveForward();
+        // testing turning left
+        player.turnLeft();
+        player.printPos();
+        player.turnLeft();
+        player.printPos();
+        player.turnLeft();
+        player.printPos();
+        player.turnLeft();
+        player.printPos();
+        player.turnLeft();
+        player.printPos();
+
+        // testing turning right
+        player.turnRight();
+        player.printPos();
+        player.turnRight();
+        player.printPos();
+        player.turnRight();
+        player.printPos();
+        player.turnRight();
+        player.printPos();
+        player.turnRight();
+        player.printPos();
+
+        // testing moving forward
+        player.moveForward(); // F
+        maze.printMaze(player.getRow(), player.getCol());
+        player.printPos();
+
+        player.turnLeft(); // L F
+        player.moveForward();
+        maze.printMaze(player.getRow(), player.getCol());
+        player.printPos();
+
+        player.turnRight(); // R 2F
+        player.moveForward();
+        player.moveForward();
+        maze.printMaze(player.getRow(), player.getCol());
+        player.printPos();
+
+        player.turnLeft(); // L 6F
+        player.moveForward();
+        player.moveForward();
+        player.moveForward();
+        player.moveForward();
+        player.moveForward();
+        player.moveForward();
+        maze.printMaze(player.getRow(), player.getCol());
+        player.printPos();
+
+        player.turnRight(); // R 4F
+        player.moveForward();
+        player.moveForward();
+        player.moveForward();
+        player.moveForward();
+        maze.printMaze(player.getRow(), player.getCol());
+        player.printPos();
+
+        player.turnRight(); // R 2F
+        player.moveForward();
+        player.moveForward();
+        maze.printMaze(player.getRow(), player.getCol());
+        player.printPos();
+
+        player.turnLeft(); // L 2F
+        player.moveForward();
+        player.moveForward();
+        maze.printMaze(player.getRow(), player.getCol());
+        player.printPos();
+
+        player.turnRight(); // R 2F
+        player.moveForward();
+        player.moveForward();
+        maze.printMaze(player.getRow(), player.getCol());
+        player.printPos();
+
+        player.turnLeft(); // L F
+        player.moveForward();
+        maze.printMaze(player.getRow(), player.getCol());
+        player.printPos();
 
     }
 }
