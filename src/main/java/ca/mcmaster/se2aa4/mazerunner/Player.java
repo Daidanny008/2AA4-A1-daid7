@@ -26,9 +26,21 @@ public class Player {
         this.direction = directions.EAST; 
     }
 
+    // get player row
+    public int getRow() {
+        return this.rowPos;
+    }
+
+    // get player column
+    public int getCol() {
+        return this.colPos;
+    }
+
     // print player position
     public void printPos() {
-        System.out.println("The player is currently at row: " + String.valueOf(this.rowPos) + ", column: " + String.valueOf(this.colPos));
+        System.out.println("The player is currently at row: " + String.valueOf(this.rowPos) 
+        + ", column: " + String.valueOf(this.colPos)
+        + ", facing: " + this.direction);
     }
 
     // turn left

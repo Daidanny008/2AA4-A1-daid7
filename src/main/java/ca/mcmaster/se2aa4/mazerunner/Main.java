@@ -65,12 +65,22 @@ public class Main {
         // print maze
         maze.printMaze();
 
-        // Instantiate player class when entry point is found, print player position
-        player = new Player(8);
+        // find entry and exit points
+        maze.findEntryRow();
+        maze.findExitRow();
+       
+        // print entry and exit points
+        System.out.println("The entry on the west side is row index: " + String.valueOf(maze.getEntryRow()));
+        System.out.println("The exit on the east side is row index: " + String.valueOf(maze.getExitRow()));
+
+        // Instantiate player class when entry point is found
+        player = new Player(maze.getEntryRow());
+
+        // print maze map with player position and direction
+        maze.printMaze(player.getRow(), player.getCol());
         player.printPos();
 
-        // print entry and exit points
-        //System.out.println("The entry on the west side is row index: " + String.valueOf(entryRow));
-        //System.out.println("The exit on the east side is row index: " + String.valueOf(exitRow));
+        //player.moveForward();
+
     }
 }
