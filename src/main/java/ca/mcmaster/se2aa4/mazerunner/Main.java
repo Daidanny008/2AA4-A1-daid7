@@ -82,6 +82,7 @@ public class Main {
         maze.printMaze(player.getRow(), player.getCol());
         player.printPos();
 
+        /*
         // Simple algorithm, move forward until wall, turn right, repeat until exit
         int steps = 0;
         while (player.getCol() != maze.getWidth() - 1 && steps < 100) {
@@ -101,11 +102,12 @@ public class Main {
         }
 
         System.out.println("Path: " + player.getCanonical());
+        */
 
-
-        /* hard code for "small.maz.txt"
+        // hard code for "small.maz.txt"
 
         // testing turning left
+        /*
         player.turnLeft();
         player.printPos();
         player.turnLeft();
@@ -116,8 +118,10 @@ public class Main {
         player.printPos();
         player.turnLeft();
         player.printPos();
+        */
 
         // testing turning right
+        /*
         player.turnRight();
         player.printPos();
         player.turnRight();
@@ -128,6 +132,7 @@ public class Main {
         player.printPos();
         player.turnRight();
         player.printPos();
+        */
 
         // testing moving forward
         player.moveForward(); // F
@@ -185,7 +190,14 @@ public class Main {
         player.moveForward();
         maze.printMaze(player.getRow(), player.getCol());
         player.printPos();
-        */
+        
+        // print ending message
+        if (player.getCol() == maze.getWidth() - 1) {
+            System.out.println("Maze is completed");
+        }
+
+        // print canonical path
+        System.out.println("Path: " + player.getCanonical());
 
     }
 }
