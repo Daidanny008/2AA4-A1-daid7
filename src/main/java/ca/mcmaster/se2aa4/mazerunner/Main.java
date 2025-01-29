@@ -17,6 +17,9 @@ public class Main {
     private static Maze maze = new Maze();
     private static Player player;
 
+    // Necessary variables
+    private static int width = 0, height = 0;
+
     public static void main(String[] args) {
         logger.info("** Starting Maze Runner");
 
@@ -35,13 +38,20 @@ public class Main {
                 BufferedReader reader = new BufferedReader(new FileReader(inputFile));
                 String line = "";
                 while ((line = reader.readLine()) != null) {
+
+                    // if first line read, initialize width of maze
+                    if (height == 0) {
+                        width = line.length();
+                    }
+
                     // Append row of maze to maze arraylist
-                    if (line.length() == 0) {
-                        for (int i = 0; i < maze.getWidth(); i++) {
-                            line += " ";
-                        }
+                    while (line.length() < width) {
+                        line += " ";
                     }
                     maze.addRow(line);
+
+                    // update height
+                    height += 1;
                     
                     for (int idx = 0; idx < line.length(); idx++) {
                         if (line.charAt(idx) == '#') {
@@ -81,116 +91,59 @@ public class Main {
         // print maze map with player position and direction
         maze.printMaze(player.getRow(), player.getCol());
         player.printPos();
+        
+        // Right hand exploration
+        boolean moved = false;
+        while (player.getCol() != maze.getWidth() - 1) {
+            moved = false;
 
-        /*
-        // Simple algorithm, move forward until wall, turn right, repeat until exit
-        int steps = 0;
-        while (player.getCol() != maze.getWidth() - 1 && steps < 100) {
-            if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
-                player.moveForward(); // F
-                steps += 1;
+            // Check if can turn right, turn right and move forward
+            if (!moved) {
+                player.turnRight(); // R
+                if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
+                    player.moveForward(); // F
+                    moved = true;
+                    player.logRight();
+                    player.logForward();
+                }
             }
-            else {
-                player.turnRight();
+            // check if can move forward, move forward
+            if (!moved) {
+                player.turnLeft(); // turn back to forward direction
+                if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
+                    player.moveForward(); // F
+                    moved = true;
+                    player.logForward();
+                }
             }
+            // check if can move left, turn left and move forward
+            if (!moved) {
+                player.turnLeft(); // L
+                if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
+                    player.moveForward(); // F
+                    moved = true;
+                    player.logLeft();
+                    player.logForward();
+                }
+            }
+            // check if dead end, turn left again then move forward
+            if (!moved) {
+                player.turnLeft(); // LL
+                if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
+                    player.moveForward(); // F
+                    moved = true;
+                    player.logLeft();
+                    player.logLeft();
+                    player.logForward();
+                }
+            }
+            
+            // Print maze and player position for visual testing
             maze.printMaze(player.getRow(), player.getCol());
             player.printPos();
         }
 
-        if (player.getCol() == maze.getWidth() - 1) {
-            System.out.println("Maze is completed");
-        }
 
-        System.out.println("Path: " + player.getCanonical());
-        */
-
-        // hard code for "small.maz.txt"
-
-        // testing turning left
-        /*
-        player.turnLeft();
-        player.printPos();
-        player.turnLeft();
-        player.printPos();
-        player.turnLeft();
-        player.printPos();
-        player.turnLeft();
-        player.printPos();
-        player.turnLeft();
-        player.printPos();
-        */
-
-        // testing turning right
-        /*
-        player.turnRight();
-        player.printPos();
-        player.turnRight();
-        player.printPos();
-        player.turnRight();
-        player.printPos();
-        player.turnRight();
-        player.printPos();
-        player.turnRight();
-        player.printPos();
-        */
-
-        // testing moving forward
-        player.moveForward(); // F
-        maze.printMaze(player.getRow(), player.getCol());
-        player.printPos();
-
-        player.turnLeft(); // L F
-        player.moveForward();
-        maze.printMaze(player.getRow(), player.getCol());
-        player.printPos();
-
-        player.turnRight(); // R 2F
-        player.moveForward();
-        player.moveForward();
-        maze.printMaze(player.getRow(), player.getCol());
-        player.printPos();
-
-        player.turnLeft(); // L 6F
-        player.moveForward();
-        player.moveForward();
-        player.moveForward();
-        player.moveForward();
-        player.moveForward();
-        player.moveForward();
-        maze.printMaze(player.getRow(), player.getCol());
-        player.printPos();
-
-        player.turnRight(); // R 4F
-        player.moveForward();
-        player.moveForward();
-        player.moveForward();
-        player.moveForward();
-        maze.printMaze(player.getRow(), player.getCol());
-        player.printPos();
-
-        player.turnRight(); // R 2F
-        player.moveForward();
-        player.moveForward();
-        maze.printMaze(player.getRow(), player.getCol());
-        player.printPos();
-
-        player.turnLeft(); // L 2F
-        player.moveForward();
-        player.moveForward();
-        maze.printMaze(player.getRow(), player.getCol());
-        player.printPos();
-
-        player.turnRight(); // R 2F
-        player.moveForward();
-        player.moveForward();
-        maze.printMaze(player.getRow(), player.getCol());
-        player.printPos();
-
-        player.turnLeft(); // L F
-        player.moveForward();
-        maze.printMaze(player.getRow(), player.getCol());
-        player.printPos();
-        
         // print ending message
         if (player.getCol() == maze.getWidth() - 1) {
             System.out.println("Maze is completed");
@@ -198,6 +151,9 @@ public class Main {
 
         // print canonical path
         System.out.println("Path: " + player.getCanonical());
+
+        // print factorized path
+        System.out.println("Path: " + player.getFactorized());
 
     }
 }
