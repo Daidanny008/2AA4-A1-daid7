@@ -9,6 +9,14 @@ import org.apache.commons.cli.*;
 
 public class Main {
 
+    // Program structure:
+    // Main: Class
+    //  - Explore: Class
+    //      - Maze: Class
+    //      - Player: Class
+    //      - explorationAlgorithm: Interface 
+    //          - rightHandExploration: Class
+
     private static final Logger logger = LogManager.getLogger();
 
     // Classes
@@ -72,13 +80,14 @@ public class Main {
                 // If -p flag, check path, else print correct right hand path
                 if (cmd.hasOption("p")) {
                     // get path
-                    String testPath = cmd.getOptionValue("p");
+                    String testPath = cmd.getOptionValue("p").trim();
                     // check path
                     explore.checkPath(testPath);
                 }
-                else {
+                else { // only -i flag
                     // Call right hand exploration
-                    explore.RightHand();
+                    explore.setAlgorithm(new rightHandExploration());                    
+                    explore.explore();
                 }
             }
             else {

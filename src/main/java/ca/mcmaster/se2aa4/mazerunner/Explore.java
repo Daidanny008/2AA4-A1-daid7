@@ -4,6 +4,12 @@ public class Explore {
     // Classes
     private static Maze maze = new Maze();
     private static Player player;
+    private static explorationAlgorithm explorationAlgorithm;
+
+    // Constructor to set the exploration strategy
+    public void setAlgorithm(explorationAlgorithm explorationAlgorithm) {
+        this.explorationAlgorithm = explorationAlgorithm;
+    }
 
     // Pass row to maze
     public void addRow(String row) {
@@ -11,63 +17,19 @@ public class Explore {
     }
 
     // Do right hand exploration and print factorized path
-    public void RightHand() {
+    public void explore() {
         // find entry and exit points
         maze.findEntryRow();
         maze.findExitRow();
 
         // Instantiate player class when entry point is found
         player = new Player(maze.getEntryRow());
-
+        
         // Right hand exploration
-        boolean moved = false;
-        while (player.getCol() != maze.getWidth() - 1) {
-            moved = false;
+        explorationAlgorithm.explore(maze, player);
 
-            // Check if can turn right, turn right and move forward
-            if (!moved) {
-                player.turnRight(); // R
-                if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
-                    player.moveForward(); // F
-                    moved = true;
-                    player.logRight();
-                    player.logForward();
-                }
-            }
-            // check if can move forward, move forward
-            if (!moved) {
-                player.turnLeft(); // turn back to forward direction
-                if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
-                    player.moveForward(); // F
-                    moved = true;
-                    player.logForward();
-                }
-            }
-            // check if can move left, turn left and move forward
-            if (!moved) {
-                player.turnLeft(); // L
-                if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
-                    player.moveForward(); // F
-                    moved = true;
-                    player.logLeft();
-                    player.logForward();
-                }
-            }
-            // check if dead end, turn left again then move forward
-            if (!moved) {
-                player.turnLeft(); // LL
-                if (maze.isWall(player.predictMove()[0], player.predictMove()[1]) == false) {
-                    player.moveForward(); // F
-                    moved = true;
-                    player.logLeft();
-                    player.logLeft();
-                    player.logForward();
-                }
-            }
-        }
         // print factorized path
         System.out.println(player.getFactorized());
-        
     }
 
     // Check path
@@ -75,6 +37,7 @@ public class Explore {
 
         // Initialize factorized path counter
         String factorizedCounter = "1";
+        boolean multiple = false;
 
         // find entry and exit points
         maze.findEntryRow();
@@ -85,8 +48,10 @@ public class Explore {
 
         // Check if path is correct, for each step in path, only move forward triggers error
         for (int i = 0; i < testPath.length(); i++) {
+
             // move by path
             if (testPath.charAt(i) == 'F') {
+                multiple = false;
                 // move forward by factorized counter
                 for (int j = 0; j < Integer.parseInt(factorizedCounter); j++) {
                     // move forward
@@ -94,9 +59,11 @@ public class Explore {
                     // check if out of bounds or into wall
                     verifyLocation();
                 }
+                //maze.printMaze(player.getRow(), player.getCol());
                 // reset counter
                 factorizedCounter = "1";
             } else if (testPath.charAt(i) == 'R') {
+                multiple = false;
                 // turn right by factorized counter
                 for (int j = 0; j < Integer.parseInt(factorizedCounter); j++) {
                     // turn right
@@ -105,6 +72,7 @@ public class Explore {
                 // reset counter
                 factorizedCounter = "1";
             } else if (testPath.charAt(i) == 'L') {
+                multiple = false;
                 // turn left by factorized counter
                 for (int j = 0; j < Integer.parseInt(factorizedCounter); j++) {
                     // turn left
@@ -112,10 +80,11 @@ public class Explore {
                 }
                 // reset counter
                 factorizedCounter = "1";
-            } else {
+            } else if (testPath.charAt(i) != ' ') {
                 // if not FRL, append factor to counter
-                if (factorizedCounter.equals("1")) {
+                if (multiple == false) {
                     factorizedCounter = String.valueOf(testPath.charAt(i));
+                    multiple = true;
                 }
                 else {
                     factorizedCounter += String.valueOf(testPath.charAt(i));

@@ -84,6 +84,9 @@ public class Maze {
 
     // check if position is wall 
     public boolean isWall(int row, int column) {
+        if (row < 0 || row >= maze.size() || column < 0 || column >= maze.get(0).length()) {
+            return true;
+        }
         if (maze.get(row).charAt(column) == '#') {
             return true;
         } else {
