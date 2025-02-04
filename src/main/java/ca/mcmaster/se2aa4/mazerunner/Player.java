@@ -121,9 +121,7 @@ public class Player {
 
     // guess next position by applying a forward move to current position
     public int[] predictMove() {
-        int[] predict = {rowPos + movement[direction][0], 
-        colPos + movement[direction][1]};
-
+        int[] predict = {rowPos + movement[direction][0], colPos + movement[direction][1]};
         return predict;
     }
 

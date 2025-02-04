@@ -77,15 +77,16 @@ public class Maze {
         return maze.get(0).length();
     }
 
-    // check if position is wall
+    // get maze height
+    public int getHeight() {
+        return maze.size();
+    }
+
+    // check if position is wall 
     public boolean isWall(int row, int column) {
-        if (row < 0 || column < 0 || row > maze.size() || column > maze.get(0).length()) {
-            return true;
-        }
         if (maze.get(row).charAt(column) == '#') {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

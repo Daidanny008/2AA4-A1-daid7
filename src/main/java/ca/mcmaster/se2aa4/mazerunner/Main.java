@@ -71,11 +71,8 @@ public class Main {
 
                 // If -p flag, check path, else print correct right hand path
                 if (cmd.hasOption("p")) {
-
                     // get path
                     String testPath = cmd.getOptionValue("p");
-                    System.out.println(testPath);
-
                     // check path
                     explore.checkPath(testPath);
                 }
