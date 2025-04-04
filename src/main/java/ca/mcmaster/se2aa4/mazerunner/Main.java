@@ -93,7 +93,6 @@ public class Main {
                 }
                 else { // only -i flag
                     // Call right hand exploration
-                    //explore.setAlgorithm(new rightHandExploration());                    
                     explore.explore();
                 }
             }
@@ -104,7 +103,6 @@ public class Main {
             logger.error("/!\\ An error has occured /!\\" + "\n");
         }
         logger.info("**** Computing path" + "\n");
-        //logger.info("PATH NOT COMPUTED" + "\n");
         logger.info("** End of MazeRunner" + "\n");
 
     }
