@@ -28,3 +28,5 @@ jobs:
       # Building the turnkey artefact
       - name: Create executable jar with Maven
         run: mvn clean package -DskipTests
+      - name: running tests
+        run: mvn --batch-mode test
