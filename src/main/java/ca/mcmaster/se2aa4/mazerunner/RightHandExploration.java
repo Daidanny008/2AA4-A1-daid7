@@ -1,12 +1,14 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import ca.mcmaster.se2aa4.mazerunner.ObserverPattern.*;
+import ca.mcmaster.se2aa4.mazerunner.CommandPattern.*;
+
 public class RightHandExploration implements explorationAlgorithm {
 
     // declare s
     private Player player;
     private Maze maze;
     private PathExecutor executor; 
-    private PathRecorder recorder;
     private MoveForwardCommand moveForward;
     private TurnLeftCommand turnLeft;
     private TurnRightCommand turnRight;
@@ -15,7 +17,6 @@ public class RightHandExploration implements explorationAlgorithm {
         // Initialize subclasses passed down
         this.player = player; // Initialize the Player
         this.maze = maze; // Initialize the Maze
-        this.recorder = recorder; // Initialize the PathRecorder
         this.executor = new PathExecutor(); // Initialize the PathExecutor
 
         // Initialize commands

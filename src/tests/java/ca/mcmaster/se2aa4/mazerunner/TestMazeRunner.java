@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ca.mcmaster.se2aa4.mazerunner.ObserverPattern.*;
+import ca.mcmaster.se2aa4.mazerunner.CommandPattern.*;
+
 public class TestMazeRunner {
     private Maze maze;
     private Player player;

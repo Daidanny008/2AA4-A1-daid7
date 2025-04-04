@@ -21,6 +21,7 @@ public class PlayerTest {
 
     @Test
     public void testInitialState() {
+        // Check initial position and direction
         assertEquals(1, player.getRow());
         assertEquals(0, player.getCol());
         assertEquals(EAST, player.predictMove()[1]); // Facing east
@@ -73,6 +74,7 @@ public class PlayerTest {
 
     @Test
     public void testPositionAfterFullRotation() {
+        // Test position after a full rotation (4 right turns)
         int initialRow = player.getRow();
         int initialCol = player.getCol();
         

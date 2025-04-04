@@ -1,7 +1,10 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.CommandPattern;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ca.mcmaster.se2aa4.mazerunner.*;
+import ca.mcmaster.se2aa4.mazerunner.ObserverPattern.*;
 
 public class MoveForwardCommand implements Command {
     private Player player;
