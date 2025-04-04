@@ -3,21 +3,22 @@ package ca.mcmaster.se2aa4.mazerunner;
 import java.util.Stack;
 
 public class PathExecutor {
-    private Stack<Command> commandHistory = new Stack<>();
-
+    private Stack<Undoable> undoStack = new Stack<>();
+    
     public void executeCommand(Command cmd) {
         cmd.execute();
-        commandHistory.push(cmd); // Optional: Store for undo/redo
+        if (cmd instanceof Undoable) {
+            undoStack.push((Undoable) cmd);
+        }
     }
 
     public void undoCommand() {
-        if (!commandHistory.isEmpty()) {
-            Command cmd = commandHistory.pop();
-            cmd.undo(); 
+        if (!undoStack.isEmpty()) {
+            undoStack.pop().undo();
         }
     }
 
     public void reset() {
-        commandHistory = new Stack<>();
+        undoStack = new Stack<>();
     }
 }

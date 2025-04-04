@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.mazerunner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TurnRightCommand implements Command {
+public class TurnRightCommand implements Command, Undoable {
     private Player player;
     private List<CommandObserver> observers = new ArrayList<>(); 
 

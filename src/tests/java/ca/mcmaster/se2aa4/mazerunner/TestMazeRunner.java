@@ -40,6 +40,7 @@ public class TestMazeRunner {
 
     @Test
     public void testEntryExitPoints() {
+        // Verify entry and exit points
         assertEquals(8, maze.getEntryRow());
         assertEquals(5, maze.getExitRow());
     }
@@ -102,12 +103,14 @@ public class TestMazeRunner {
 
     @Test
     public void testMazeDimensions() {
+        // Check maze dimensions
         assertEquals(11, maze.getHeight());
         assertEquals(11, maze.getWidth());
     }
 
     @Test
     public void testWallDetection() {
+        // Check wall detection
         assertTrue(maze.isWall(0, 0)); // Corner wall
         assertFalse(maze.isWall(8, 1)); // Valid path
         assertTrue(maze.isWall(8, 2)); // Wall
@@ -115,6 +118,7 @@ public class TestMazeRunner {
 
     @Test
     public void testPathRecorder() {
+        // Test path recording
         recorder.recordAction('F');
         recorder.recordAction('F');
         recorder.recordAction('L');
@@ -125,6 +129,7 @@ public class TestMazeRunner {
 
     @Test
     public void testPlayerPredictMove() {
+        // Test player move prediction
         int[] predicted = player.predictMove();
         assertEquals(8, predicted[0]); // Same row
         assertEquals(1, predicted[1]); // Next column
