@@ -11,10 +11,13 @@ public class PlayerTest {
 
     @BeforeEach
     public void setUp() {
+        // load a straight maze for testing
         maze = new Maze();
         maze.addRow("#####");
         maze.addRow("     "); // Test maze with a straight path
         maze.addRow("#####");
+
+        // Initialize player at the entry point (1,0)
         maze.findEntryRow(); // Entry at (1,0)
         player = new Player(maze.getEntryRow());
     }

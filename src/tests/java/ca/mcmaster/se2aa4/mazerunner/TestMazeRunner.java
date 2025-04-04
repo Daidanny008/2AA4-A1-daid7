@@ -31,13 +31,14 @@ public class TestMazeRunner {
         maze.addRow("# # # #   #");
         maze.addRow("###########");
         
+        // Initialize all sub classes needed
         maze.findEntryRow();
         maze.findExitRow();
         player = new Player(maze.getEntryRow());
         recorder = new PathRecorder();
         executor = new PathExecutor();
         explore = new Explore();
-        explore.setMaze(maze);
+        explore.setMaze(maze); // inject maze into explore
         rightHandExploration = new RightHandExploration(player, maze, recorder);
     }
 
@@ -62,15 +63,18 @@ public class TestMazeRunner {
 
     @Test
     public void testCommandExecution() {
+        // create commands and add observer
         MoveForwardCommand forwardCmd = new MoveForwardCommand(player);
         forwardCmd.addObserver(recorder);
         
         TurnRightCommand rightCmd = new TurnRightCommand(player);
         rightCmd.addObserver(recorder);
         
+        // execute commands
         executor.executeCommand(forwardCmd);
         executor.executeCommand(rightCmd);
         
+        // Verify player path after commands
         assertEquals("FR", recorder.getCanonicalPath());
     }
 
@@ -78,7 +82,6 @@ public class TestMazeRunner {
     public void testPathValidation() {
         // Test valid path
         String validPath = "R L F R F R 3L F R L F R F R L F R F R L F R 3L F R L F R L F R L F R F R L F R F R L F R L F R L F R 3L F R L F R F R L F R L F R L F R F R L F R F R L F R 3L F R L F R 2L F R L F R 2L F R L F R L F R L F R F R L F R F R L F R 3L F R L F R L F R L F R F R L F R F R L F R 3L F R L F R F R L F R F R L F R L F R L F R F R L F R 2L F R L F R F R L F R 2L F ";
-        
         assertTrue(explore.checkPath(validPath)); // Should return true
         
         // Test invalid path (hits wall)
