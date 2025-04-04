@@ -104,11 +104,9 @@ public class Explore {
                     factorizedCounter += String.valueOf(testPath.charAt(i));
                 }
             }
-
         }
         
         // Check if exit point is reached
         return (player.getCol() == maze.getWidth() - 1);
-
     }
 }

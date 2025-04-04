@@ -1,38 +1,39 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 // Imports
-import java.io.BufferedReader;
-import java.io.FileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.commons.cli.*;
 
 public class Main {
 
-    // Program structure:
-    // Main: Class
-    //  - Explore: Class
-    //      - Maze: Class
-    //      - Player: Class
-    //      - explorationAlgorithm: Interface 
-    //          - rightHandExploration: Class
+    /* Program structure:
+     * Main: class
+     *  - Explore: class
+     *      - Maze: class
+     *      - Player: class
+     *      - explorationAlgorithm: interface
+     *          - rightHandExploration: class
+     *      - CommandPattern: package
+     *          - Command: interface
+     *              - MoveCommand: class
+     *          - Command: interface, Undoable: interface 
+     *              - TurnLeftCommand: class
+     *              - TurnRightCommand: class
+     *       - ObserverPattern: package
+     *          - CommandObserver: interface
+     *              - PathRecorder: class
+     */
 
+    // Declare logger and explore class
     private static final Logger logger = LogManager.getLogger();
-
-    // Classes
-    private static Explore explore = new Explore();
-
-    // Necessary variables
-    private static int width = 0;
-    private static boolean firstLine = true;
+    private static final Explore explore = new Explore();
 
     public static void main(String[] args) {
         logger.info("** Starting Maze Runner");
 
         // Instantiate options
-        Options options = new Options();
-        options.addOption("i", true, "input file");
-        options.addOption("p", true, "check Path");
+        Options options = createOptions();
 
         // Create parser
         CommandLineParser parser = new DefaultParser();
@@ -42,68 +43,54 @@ public class Main {
 
             // if -i flag is present
             if (cmd.hasOption("i")) {
-
-                String inputFile = cmd.getOptionValue("i");
-
-                logger.info("**** Reading the maze from file " + inputFile + "\n");
-                BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-
-                    // if first line read, initialize width of maze
-                    if (firstLine) {
-                        width = line.length();
-                        firstLine = false;
-                    }
-
-                    // Pad the line with spaces if it's shorter than the width
-                    while (line.length() < width) {
-                        line += " ";
-                    }
-
-                    // Append row of maze to maze arraylist
-                    explore.addRow(line);
-                    
-                    // logger info
-                    for (int idx = 0; idx < line.length(); idx++) {
-                        if (line.charAt(idx) == '#') {
-                            logger.info("WALL ");
-                        } else if (line.charAt(idx) == ' ') {
-                            logger.info("PASS ");
-                        }
-                    }
-                    logger.info(System.lineSeparator());
-                }
-                // close reader
-                reader.close();
-
-                // If -p flag, check path, else print correct right hand path
-                if (cmd.hasOption("p")) {
-                    // get path
-                    String testPath = cmd.getOptionValue("p").trim();
-                    // check path
-                    boolean valid = explore.checkPath(testPath);
-
-                    // print path correctness
-                    if (valid) {
-                        System.out.println("correct path");
-                    } else {
-                        System.out.println("incorrect path");
-                    }
-                }
-                else { // only -i flag
-                    // Call right hand exploration
-                    explore.explore();
-                }
-            }
-            else {
+                processInputFile(cmd);
+            } else {
                 logger.error("/!\\ An error has occured /!\\ " + "\n");
             }
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\" + "\n");
         }
-        logger.info("**** Computing path" + "\n");
+        logger.info("**** Computing path");
         logger.info("** End of MazeRunner" + "\n");
 
+    }
+
+    private static Options createOptions() {
+        // create new options, add -i and -p options, return options object
+        Options options = new Options();
+        options.addOption("i", true, "input file");
+        options.addOption("p", true, "check Path");
+        return options;
+    }
+
+    private static void processInputFile(CommandLine cmd) throws Exception {
+        // get input file from option -i, read maze from file
+        String inputFile = cmd.getOptionValue("i");
+        MazeReader.readMazeFromFile(inputFile, explore);
+
+        // if -p flag, check path; else, explore maze.
+        if (cmd.hasOption("p")) {
+            checkPath(cmd);
+        } else {
+            exploreMaze();
+        }
+    }
+
+    private static void checkPath(CommandLine cmd) {
+        // get testPath from option -p, check path
+        String testPath = cmd.getOptionValue("p").trim();
+        boolean valid = explore.checkPath(testPath);
+
+        // print path correctness
+        if (valid) {
+            System.out.println("correct path");
+        } else {
+            System.out.println("incorrect path");
+        }
+    }
+
+    private static void exploreMaze() {
+        // explore maze
+        explore.explore();
     }
 }
