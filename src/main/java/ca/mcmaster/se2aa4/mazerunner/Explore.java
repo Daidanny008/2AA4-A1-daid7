@@ -3,11 +3,10 @@ package ca.mcmaster.se2aa4.mazerunner;
 import ca.mcmaster.se2aa4.mazerunner.ObserverPattern.*;
 
 public class Explore {
-    // Classes
+    // Declare sub-classes
     private Maze maze = new Maze();
     private Player player;
     private PathRecorder recorder = new PathRecorder();
-    //private PathExecutor executor;
     private explorationAlgorithm explorationAlgorithm;
 
     // Settor to set the exploration strategy
@@ -15,7 +14,7 @@ public class Explore {
         this.explorationAlgorithm = explorationAlgorithm;
     }
 
-    // inject a maze object
+    // inject a maze object - for testing
     public void setMaze(Maze maze) {
         this.maze = maze;
     }
@@ -70,7 +69,7 @@ public class Explore {
                     // move forward
                     player.moveForward();
                     // check if out of bounds or into wall
-                    if (!verifyLocation()) {
+                    if (maze.isWall(player.getRow(), player.getCol())) {
                         return false;
                     };
                 }
@@ -111,19 +110,5 @@ public class Explore {
         // Check if exit point is reached
         return (player.getCol() == maze.getWidth() - 1);
 
-    }
-
-    public boolean verifyLocation() {
-        // check if out of bounds
-        if (player.getRow() < 0 || player.getRow() >= maze.getHeight() ||
-            player.getCol() < 0 || player.getCol() >= maze.getWidth()) {
-            return false;
-        }
-        // check if wall 
-        if (maze.isWall(player.getRow(), player.getCol())) {
-            return false;
-        }
-
-        return true;
     }
 }

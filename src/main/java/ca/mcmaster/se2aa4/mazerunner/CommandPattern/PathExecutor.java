@@ -8,7 +8,8 @@ public class PathExecutor {
     
     // Call execution of commands, and push to stack if undoable
     public void executeCommand(Command cmd) {
-        cmd.execute();
+        cmd.execute(); // call command to execute
+        // If the command is undoable, push it onto the stack
         if (cmd instanceof Undoable) {
             undoStack.push((Undoable) cmd);
         }
@@ -16,6 +17,7 @@ public class PathExecutor {
 
     // Undo the last command
     public void undoCommand() {
+        // if the stack is not empty, pop the last command and call undo
         if (!undoStack.isEmpty()) {
             undoStack.pop().undo();
         }

@@ -10,6 +10,7 @@ public class PathRecorder implements CommandObserver{
 
     @Override
     public void recordAction(char action) {
+        // if valid action, append to movement log. else if undo, remove last action
         if (action == 'F' || action == 'L' || action == 'R') {
             movementLog += action;
         } else if (action == 'U'){
@@ -17,6 +18,7 @@ public class PathRecorder implements CommandObserver{
         }
     }
 
+    // return canonical path
     public String getCanonicalPath() {
         return movementLog;
     }

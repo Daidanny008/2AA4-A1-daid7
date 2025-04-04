@@ -60,7 +60,7 @@ public class RightHandExploration implements explorationAlgorithm {
     @Override
     public void explore(Maze maze, Player player) {
 
-        // Right hand exploration
+        // Right hand exploration -> try Right/Forward/Left/Back
         while (!isAtExit()) { // check if player is at exit
             if (canMoveRight()) {
                 executor.executeCommand(turnRight); // turn right
