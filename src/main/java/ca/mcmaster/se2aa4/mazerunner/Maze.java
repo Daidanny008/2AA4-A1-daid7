@@ -6,40 +6,21 @@ import java.util.ArrayList;
 public class Maze {
 
     // Maze variables
-    private static ArrayList<String> maze = new ArrayList<String>();
-    private static int entryRow = -1, exitRow = -1;
+    private ArrayList<String> maze;
+    private int entryRow, exitRow;
+
+    // Constructor
+    public Maze() {
+        // Initialize maze
+        maze = new ArrayList<String>();
+        this.entryRow = -1;
+        this.exitRow = -1;
+    }
 
     // Append a row of the maze, also check for entry and exit points
     public void addRow(String row) {
         // append row
         maze.add(row);
-    }
-
-    // print maze stored
-    public void printMaze() {
-        for (int i = 0; i < maze.size(); i++) {
-            for (int j = 0; j < maze.get(0).length(); j++) {
-                System.out.print(maze.get(i).charAt(j));
-                System.out.print(" ");
-            }
-            System.out.println("");
-        }
-    }
-
-    // print maze stored with Player
-    public void printMaze(int row, int column) {
-        System.out.println("");
-        for (int i = 0; i < maze.size(); i++) {
-            for (int j = 0; j < maze.get(0).length(); j++) {
-                if (i == row && j == column) {
-                    System.out.print("P "); 
-                }
-                else {
-                    System.out.print(maze.get(i).charAt(j) + " ");
-                }
-            }
-            System.out.println("");
-        }
     }
 
     // find entry point
@@ -91,6 +72,33 @@ public class Maze {
             return true;
         } else {
             return false;
+        }
+    }
+
+    // print maze stored
+    public void printMaze() {
+        for (int i = 0; i < maze.size(); i++) {
+            for (int j = 0; j < maze.get(0).length(); j++) {
+                System.out.print(maze.get(i).charAt(j));
+                System.out.print(" ");
+            }
+            System.out.println("");
+        }
+    }
+
+    // print maze stored with Player
+    public void printMaze(int row, int column) {
+        System.out.println("");
+        for (int i = 0; i < maze.size(); i++) {
+            for (int j = 0; j < maze.get(0).length(); j++) {
+                if (i == row && j == column) {
+                    System.out.print("P "); 
+                }
+                else {
+                    System.out.print(maze.get(i).charAt(j) + " ");
+                }
+            }
+            System.out.println("");
         }
     }
 

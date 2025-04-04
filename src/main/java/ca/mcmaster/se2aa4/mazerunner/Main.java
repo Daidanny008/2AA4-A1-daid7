@@ -82,11 +82,18 @@ public class Main {
                     // get path
                     String testPath = cmd.getOptionValue("p").trim();
                     // check path
-                    explore.checkPath(testPath);
+                    boolean valid = explore.checkPath(testPath);
+
+                    // print path correctness
+                    if (valid) {
+                        System.out.println("correct path");
+                    } else {
+                        System.out.println("incorrect path");
+                    }
                 }
                 else { // only -i flag
                     // Call right hand exploration
-                    explore.setAlgorithm(new rightHandExploration());                    
+                    //explore.setAlgorithm(new rightHandExploration());                    
                     explore.explore();
                 }
             }
@@ -97,7 +104,7 @@ public class Main {
             logger.error("/!\\ An error has occured /!\\" + "\n");
         }
         logger.info("**** Computing path" + "\n");
-        logger.info("PATH NOT COMPUTED" + "\n");
+        //logger.info("PATH NOT COMPUTED" + "\n");
         logger.info("** End of MazeRunner" + "\n");
 
     }

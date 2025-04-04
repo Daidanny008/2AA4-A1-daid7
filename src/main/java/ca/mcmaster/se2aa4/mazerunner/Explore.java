@@ -2,13 +2,20 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class Explore {
     // Classes
-    private static Maze maze = new Maze();
-    private static Player player;
-    private static explorationAlgorithm explorationAlgorithm;
+    private Maze maze = new Maze();
+    private Player player;
+    private PathRecorder recorder = new PathRecorder();
+    //private PathExecutor executor;
+    private explorationAlgorithm explorationAlgorithm;
 
-    // Constructor to set the exploration strategy
+    // Settor to set the exploration strategy
     public void setAlgorithm(explorationAlgorithm explorationAlgorithm) {
         this.explorationAlgorithm = explorationAlgorithm;
+    }
+
+    // inject a maze object
+    public void setMaze(Maze maze) {
+        this.maze = maze;
     }
 
     // Pass row to maze
@@ -18,22 +25,26 @@ public class Explore {
 
     // Do right hand exploration and print factorized path
     public void explore() {
+        
         // find entry and exit points
         maze.findEntryRow();
         maze.findExitRow();
-
+        
         // Instantiate player class when entry point is found
         player = new Player(maze.getEntryRow());
+
+        // Initialize exploration algorithm to right hand exploration
+        explorationAlgorithm = new RightHandExploration(player, maze, recorder);
         
         // Right hand exploration
         explorationAlgorithm.explore(maze, player);
 
         // print factorized path
-        System.out.println(player.getFactorized());
+        System.out.println(recorder.getFactorizedPath());
     }
 
     // Check path
-    public void checkPath(String testPath) {
+    public boolean checkPath(String testPath) {
 
         // Initialize factorized path counter
         String factorizedCounter = "1";
@@ -57,7 +68,9 @@ public class Explore {
                     // move forward
                     player.moveForward();
                     // check if out of bounds or into wall
-                    verifyLocation();
+                    if (!verifyLocation()) {
+                        return false;
+                    };
                 }
                 //maze.printMaze(player.getRow(), player.getCol());
                 // reset counter
@@ -90,28 +103,25 @@ public class Explore {
                     factorizedCounter += String.valueOf(testPath.charAt(i));
                 }
             }
-        }
 
-        // Check if exit point is reached
-        if (player.getCol() == maze.getWidth() - 1) {
-            System.out.println("correct path");
-        } else {
-            System.out.println("incorrect path");
         }
+        
+        // Check if exit point is reached
+        return (player.getCol() == maze.getWidth() - 1);
 
     }
 
-    public void verifyLocation() {
+    public boolean verifyLocation() {
         // check if out of bounds
         if (player.getRow() < 0 || player.getRow() >= maze.getHeight() ||
             player.getCol() < 0 || player.getCol() >= maze.getWidth()) {
-            System.out.println("incorrect path");
-            System.exit(1);
+            return false;
         }
         // check if wall 
         if (maze.isWall(player.getRow(), player.getCol())) {
-            System.out.println("incorrect path");
-            System.exit(1);
+            return false;
         }
+
+        return true;
     }
 }
