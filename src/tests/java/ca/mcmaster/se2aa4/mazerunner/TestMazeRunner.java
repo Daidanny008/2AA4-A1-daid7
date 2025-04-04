@@ -12,6 +12,7 @@ public class TestMazeRunner {
     private Player player;
     private PathRecorder recorder;
     private PathExecutor executor;
+    private PathValidator validator;
     private RightHandExploration rightHandExploration;
     private Explore explore;
 
@@ -37,6 +38,7 @@ public class TestMazeRunner {
         player = new Player(maze.getEntryRow());
         recorder = new PathRecorder();
         executor = new PathExecutor();
+        validator = new PathValidator(maze, player);
         explore = new Explore();
         explore.setMaze(maze); // inject maze into explore
         rightHandExploration = new RightHandExploration(player, maze, recorder);
@@ -82,11 +84,11 @@ public class TestMazeRunner {
     public void testPathValidation() {
         // Test valid path
         String validPath = "R L F R F R 3L F R L F R F R L F R F R L F R 3L F R L F R L F R L F R F R L F R F R L F R L F R L F R 3L F R L F R F R L F R L F R L F R F R L F R F R L F R 3L F R L F R 2L F R L F R 2L F R L F R L F R L F R F R L F R F R L F R 3L F R L F R L F R L F R F R L F R F R L F R 3L F R L F R F R L F R F R L F R L F R L F R F R L F R 2L F R L F R F R L F R 2L F ";
-        assertTrue(explore.checkPath(validPath)); // Should return true
+        assertTrue(validator.checkPath(validPath)); // Should return true
         
         // Test invalid path (hits wall)
         String invalidPath = "FFFFFF";
-        assertFalse(explore.checkPath(invalidPath)); // Should return false
+        assertFalse(validator.checkPath(invalidPath)); // Should return false
     }
 
     @Test

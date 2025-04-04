@@ -11,6 +11,8 @@ public class Main {
      * Main: class
      *  - Explore: class
      *      - Maze: class
+     *      - MazeReader: class
+     *      - PathValidator: class
      *      - Player: class
      *      - explorationAlgorithm: interface
      *          - rightHandExploration: class
