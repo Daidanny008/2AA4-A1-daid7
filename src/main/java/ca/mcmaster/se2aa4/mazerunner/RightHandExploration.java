@@ -57,7 +57,10 @@ public class RightHandExploration implements explorationAlgorithm {
             if (!moved) {
                 executor.executeCommand(turnLeft); // turn left back to forward direction
                 if (canMove()) {
-                    // logs RLF
+                    // logs F = RL -> '' -> F
+                    for (int i = 0; i < 2; i++) { // undo twice
+                        executor.undoCommand(); // undo
+                    }
                     executor.executeCommand(moveForward); // move forward
                     moved = true;
                 }
@@ -66,8 +69,13 @@ public class RightHandExploration implements explorationAlgorithm {
             if (!moved) {
                 executor.executeCommand(turnLeft); // turn left to left direction
                 if (canMove()) {
-                    // logs RLLF
+                    // logs LF = RLL -> '' -> LF
+                    for (int i = 0; i < 3; i++) { // undo 3 times
+                        executor.undoCommand(); // undo
+                    }
+                    executor.executeCommand(turnLeft); // redo turn left
                     executor.executeCommand(moveForward); // move forward
+
                     moved = true;
                 }
             }
@@ -75,8 +83,14 @@ public class RightHandExploration implements explorationAlgorithm {
             if (!moved) {
                 executor.executeCommand(turnLeft); // turn left to backward direction
                 if (canMove()) {
-                    // logs RLLLF
+                    // logs LLF = RLLL -> '' -> LLF
+                    for (int i = 0; i < 4; i++) { // undo 4 times
+                        executor.undoCommand(); // undo
+                    }
+                    executor.executeCommand(turnLeft); // redo turn left twice
+                    executor.executeCommand(turnLeft); 
                     executor.executeCommand(moveForward); // move forward
+
                     moved = true;
                 }
             }

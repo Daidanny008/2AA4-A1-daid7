@@ -10,6 +10,13 @@ public class PathExecutor {
         commandHistory.push(cmd); // Optional: Store for undo/redo
     }
 
+    public void undoCommand() {
+        if (!commandHistory.isEmpty()) {
+            Command cmd = commandHistory.pop();
+            cmd.undo(); 
+        }
+    }
+
     public void reset() {
         commandHistory = new Stack<>();
     }

@@ -17,6 +17,11 @@ public class MoveForwardCommand implements Command {
         notifyObservers('F'); // Notify observers of the move forward action
     }
 
+    @Override
+    public void undo() { // note that undo is not called for move forward, since backward is not a valid move
+        notifyObservers('U'); // Notify observers of the undo action
+    }
+
     public void addObserver(CommandObserver observer) {
         observers.add(observer);
     }

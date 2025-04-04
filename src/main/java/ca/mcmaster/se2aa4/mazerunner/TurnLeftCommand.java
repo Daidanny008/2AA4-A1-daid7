@@ -17,6 +17,12 @@ public class TurnLeftCommand implements Command {
         notifyObservers('L'); // Notify observers of the turn left action
     }
 
+    @Override
+    public void undo() {
+        player.turnRight(); // Undo the turn left by turning right
+        notifyObservers('U'); // Notify observers of the undo action
+    }
+
     public void addObserver(CommandObserver observer) {
         observers.add(observer);
     }

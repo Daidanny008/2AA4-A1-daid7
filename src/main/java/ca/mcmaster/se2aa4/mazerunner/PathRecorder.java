@@ -10,7 +10,11 @@ public class PathRecorder implements CommandObserver{
 
     @Override
     public void recordAction(char action) {
-        movementLog += action;
+        if (action == 'F' || action == 'L' || action == 'R') {
+            movementLog += action;
+        } else if (action == 'U'){
+            movementLog = movementLog.substring(0, movementLog.length() - 1);
+        }
     }
 
     public String getCanonicalPath() {
